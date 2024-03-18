@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   objectFromBucketXlsx: any;
   objectFromBucketMp4: any;
   objectFromBucketMp3: any;
-
+  title = "demo of aws s3"
 
   constructor(private appService: AppService) {}
   ngOnInit(): void {}
@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
     let parts = this.chooseObjectNameToRead.split(".")
 
     for(let part of parts){
-      
+
       switch(part){
 
         case "jpg": 
