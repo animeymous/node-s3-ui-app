@@ -94,8 +94,10 @@
 
       <br>
       <br>
+
       <label for="chooseObjectNameToRead">Enter Object name : </label>
       <input type="text" name="chooseObjectNameToRead" [(ngModel)] = chooseObjectNameToRead>
+      
       <br>
       <br>
       <button (click)="chooseObjectNameToReadFunc()">Get Object</button>
@@ -103,14 +105,17 @@
       <br>
       <br>
 
+      <!-- JPG -->
       <div *ngIf="objectFromBucketJpg">
         <img [src]="objectFromBucketJpg" alt="err">
       </div>
 
+      <!-- TEXT -->
       <div *ngIf="objectFromBucketText">
         <p> {{objectFromBucketText}} </p>
       </div>
 
+      <!-- PDF -->
       <div *ngIf="objectFromBucketPdf">
         <ngx-extended-pdf-viewer 
         [src]="objectFromBucketPdf"
@@ -120,6 +125,7 @@
         </ngx-extended-pdf-viewer>
       </div>
 
+      <!-- AUDIO -->
       <div *ngIf="objectFromBucketMp3">
         <audio controls>
           <source [src]="objectFromBucketMp3" type="audio/mpeg">
@@ -127,12 +133,24 @@
         </audio>
       </div>
 
+      <!-- VIDEO -->
       <div *ngIf="objectFromBucketMp4">
         <video controls>
           <source [src]="objectFromBucketMp4" type="video/mp4">
           Your browser does not support the video element.
         </video>
       </div>
+
+      <!-- DOCX -->
+      <div *ngIf="objectFromBucketDocx">
+        <button (click)="objectFromBucketDocxDownload()">Download Docx</button>
+      </div>
+
+      <!-- XLSX -->
+      <div *ngIf="objectFromBucketXlsx">
+        <button (click)="objectFromBucketXlsxDownload()">Download xlsx</button>
+      </div>
+
     </div>
 </div>
 

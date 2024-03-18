@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FormsModule } from '@angular/forms';
 import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer"
+import { saveAs } from "file-saver"
 
 @Component({
   selector: 'app-root',
@@ -85,6 +86,7 @@ export class AppComponent implements OnInit {
     let parts = this.chooseObjectNameToRead.split(".")
 
     for(let part of parts){
+      
       switch(part){
 
         case "jpg": 
@@ -147,7 +149,39 @@ export class AppComponent implements OnInit {
         this.objectFromBucketJpg = false
         })
         break;
+
+        case "docx": 
+        this.appService.chooseObjectNameToReadFuncBlob(this.chooseBucketNameToRead, this.chooseObjectNameToRead).subscribe((data: Blob) =>{
+        this.objectFromBucketText = false
+        this.objectFromBucketDocx = URL.createObjectURL(data);;
+        this.objectFromBucketPdf = false;
+        this.objectFromBucketXlsx = false;
+        this.objectFromBucketMp4 = false
+        this.objectFromBucketMp3 = false
+        this.objectFromBucketJpg = false
+        })
+        break;
+
+        case "xlsx": 
+        this.appService.chooseObjectNameToReadFuncBlob(this.chooseBucketNameToRead, this.chooseObjectNameToRead).subscribe((data: Blob) =>{
+        this.objectFromBucketText = false
+        this.objectFromBucketDocx = false
+        this.objectFromBucketPdf = false;
+        this.objectFromBucketXlsx = URL.createObjectURL(data);
+        this.objectFromBucketMp4 = false
+        this.objectFromBucketMp3 = false
+        this.objectFromBucketJpg = false
+        })
+        break;
       }
     }
+  }
+
+  objectFromBucketDocxDownload(){
+    saveAs(this.objectFromBucketDocx, "your docx")
+  }
+
+  objectFromBucketXlsxDownload(){
+    saveAs(this.objectFromBucketXlsx, "your xlsx")
   }
 }
