@@ -2,7 +2,7 @@
 
   <!-- Create Bucket and Upload File -->
   <div >
-    <p> <span [ngStyle]="{'color':'red'}"> *Create your Bucket by entering Bucket name, choose file to upload and click on button* </span> </p>
+    <p> <span [ngStyle]="{'color':'red'}"> *PUT OBJECT: Create your Bucket by entering Bucket name, choose file to upload* </span> </p>
     <label for="createBucketName">Create Bucket: </label>
     <input type="text" name="createBucketName" [(ngModel)] = createBucketName>
     <br>
@@ -19,8 +19,8 @@
 
   <!-- Choose Bucket and Upload File -->
   <div >
-    <p> <span [ngStyle]="{'color':'red'}"> *Choose your Bucket by entering Bucket name, choose file to upload and click on button* </span> </p>
-    <label for="bucketName">Choose Bucket: </label>
+    <p> <span [ngStyle]="{'color':'red'}"> *PUT OBJECT: Choose your Bucket by entering Bucket name, to upload Object in that bucket only* </span> </p>
+    <label for="bucketName">Enter Bucket Name: </label>
     <input type="text" name="bucketName" [(ngModel)] = bucketName>
     <br>
     <br>
@@ -36,7 +36,7 @@
 
   <!-- Get all Buckets -->
   <div>
-    <p> <span [ngStyle]="{'color':'red'}"> *Get list of available buckets by clicking below button* </span> </p>
+    <p> <span [ngStyle]="{'color':'red'}"> *LIST BUCKETS: Get list of available buckets* </span> </p>
     <button (click)="getAllBuckets()">Get all Buckets</button>
   </div>
 
@@ -51,7 +51,7 @@
 
   <!-- Get all Objects in specific Bucket -->
   <div >
-    <p> <span [ngStyle]="{'color':'red'}"> *Get list of available Objects in specific Bucket, If forgot Bucket name then click on 'Get all Buckets'* </span> </p>
+    <p> <span [ngStyle]="{'color':'red'}"> *LIST OBJECTS: Get list of available Objects in specific Bucket, If forgot Bucket name then click on 'Get all Buckets'* </span> </p>
     <label for="chooseBucketName">Choose Bucket: </label>
     <input type="text" name="chooseBucketName" [(ngModel)] = chooseBucketName>
     <br>
@@ -70,12 +70,12 @@
 
   <!-- Delete specific Object from specific Bucket -->
   <div>
-    <p> <span [ngStyle]="{'color':'red'}"> *Delete Object in specific Bucket by its ID, If forgot ID then choose your Bucket and click on 'Get all Objects in Bucket'* </span> </p>
-    <label for="chooseBucketFromDelete">Choose Bucket : </label>
+    <p> <span [ngStyle]="{'color':'red'}"> *DELETE OBJECT in specific Bucket by its ID, If forgot ID then choose your Bucket and click on 'Get All Objects in Bucket'* </span> </p>
+    <label for="chooseBucketFromDelete">Enter Bucket Name : </label>
     <input type="text" name="chooseBucketFromDelete" [(ngModel)] = chooseBucketFromDelete>
     <br>
     <br>
-    <label for="chooseObjectToDelete">Choose Object : </label>
+    <label for="chooseObjectToDelete">Enter Object ID : </label>
     <input type="text" name="chooseObjectToDelete" [(ngModel)] = chooseObjectToDelete>
     <br>
     <br>
@@ -83,5 +83,56 @@
 
   </div>
 
+  <br>
+  <br>
+
+    <!-- get object from specific bucket -->
+    <div>
+      <p> <span [ngStyle]="{'color':'red'}"> *GET Object in specific Bucket by its name, If forgot name then choose your Bucket and click on 'Get All Objects in Bucket'* </span> </p>
+      <label for="chooseBucketNameToRead">Enter Bucket Name : </label>
+      <input type="text" name="chooseBucketNameToRead" [(ngModel)] = chooseBucketNameToRead>
+
+      <br>
+      <br>
+      <label for="chooseObjectNameToRead">Enter Object name : </label>
+      <input type="text" name="chooseObjectNameToRead" [(ngModel)] = chooseObjectNameToRead>
+      <br>
+      <br>
+      <button (click)="chooseObjectNameToReadFunc()">Get Object</button>
+  
+      <br>
+      <br>
+
+      <div *ngIf="objectFromBucketJpg">
+        <img [src]="objectFromBucketJpg" alt="err">
+      </div>
+
+      <div *ngIf="objectFromBucketText">
+        <p> {{objectFromBucketText}} </p>
+      </div>
+
+      <div *ngIf="objectFromBucketPdf">
+        <ngx-extended-pdf-viewer 
+        [src]="objectFromBucketPdf"
+        [height]="'500px'"
+        [textLayer]="true"
+        [showHandToolButton]="true">
+        </ngx-extended-pdf-viewer>
+      </div>
+
+      <div *ngIf="objectFromBucketMp3">
+        <audio controls>
+          <source [src]="objectFromBucketMp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+
+      <div *ngIf="objectFromBucketMp4">
+        <video controls>
+          <source [src]="objectFromBucketMp4" type="video/mp4">
+          Your browser does not support the video element.
+        </video>
+      </div>
+    </div>
 </div>
 

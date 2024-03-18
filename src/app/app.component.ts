@@ -5,13 +5,13 @@ import { ButtonModule } from 'primeng/button';
 import { AppService } from './app.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'primeng/fileupload';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer"
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, ButtonModule, HttpClientModule, FileUploadModule, FormsModule],
+  imports: [CommonModule, RouterOutlet, ButtonModule, HttpClientModule, FileUploadModule, FormsModule, NgxExtendedPdfViewerModule],
   providers: [AppService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -21,11 +21,21 @@ export class AppComponent implements OnInit {
   allFiles: any;
   createBucketName: any;
   chooseBucketName: any;
+  chooseBucketNameToRead: any;
+  chooseObjectNameToRead: any;
   chooseBucketFromDelete: any;
   chooseObjectToDelete: any;
   bucketName: any;
   allBuckets = [];
   allListsInBucket = [];
+  objectFromBucketJpg: any;
+  objectFromBucketText: any;
+  objectFromBucketPdf: any;
+  objectFromBucketDocx: any;
+  objectFromBucketXlsx: any;
+  objectFromBucketMp4: any;
+  objectFromBucketMp3: any;
+
 
   constructor(private appService: AppService) {}
   ngOnInit(): void {}
@@ -54,7 +64,7 @@ export class AppComponent implements OnInit {
 
   getAllBuckets(){
     this.appService.getAllBuckets().subscribe(data =>{
-      this.allBuckets = data['allbuckets']
+      this.allBuckets = data['bucketNames']
     })
   }
 
@@ -68,5 +78,76 @@ export class AppComponent implements OnInit {
     this.appService.deleteObjectFromBucket(this.chooseBucketFromDelete, this.chooseObjectToDelete).subscribe(data =>{
       this.allListsInBucket = data['allListsInBucket']
     })
+  }
+
+  chooseObjectNameToReadFunc(){
+
+    let parts = this.chooseObjectNameToRead.split(".")
+
+    for(let part of parts){
+      switch(part){
+
+        case "jpg": 
+          this.appService.chooseObjectNameToReadFuncBlob(this.chooseBucketNameToRead, this.chooseObjectNameToRead).subscribe((data: Blob) =>{
+          this.objectFromBucketText = false
+          this.objectFromBucketDocx = false;
+          this.objectFromBucketPdf = false;
+          this.objectFromBucketXlsx = false;
+          this.objectFromBucketMp4 = false;
+          this.objectFromBucketMp3 = false;
+          this.objectFromBucketJpg = URL.createObjectURL(data)
+        })
+        break;
+
+        case "txt": 
+        this.appService.chooseObjectNameToReadFuncText(this.chooseBucketNameToRead, this.chooseObjectNameToRead).subscribe((data: string) =>{
+          this.objectFromBucketJpg = false;
+          this.objectFromBucketText = data
+          this.objectFromBucketDocx = false;
+          this.objectFromBucketPdf = false;
+          this.objectFromBucketXlsx = false;
+          this.objectFromBucketMp4 = false;
+          this.objectFromBucketMp3 = false;
+        })
+
+        break;
+
+        case "pdf": 
+          this.appService.chooseObjectNameToReadFuncBlob(this.chooseBucketNameToRead, this.chooseObjectNameToRead).subscribe((data: Blob) =>{
+          this.objectFromBucketText = false
+          this.objectFromBucketDocx = false;
+          this.objectFromBucketXlsx = false;
+          this.objectFromBucketMp4 = false;
+          this.objectFromBucketJpg = false;
+          this.objectFromBucketMp3 = false;
+          this.objectFromBucketPdf = URL.createObjectURL(data)
+        })
+        break;
+
+        case "mp4": 
+        this.appService.chooseObjectNameToReadFuncBlob(this.chooseBucketNameToRead, this.chooseObjectNameToRead).subscribe((data: Blob) =>{
+        this.objectFromBucketText = false
+        this.objectFromBucketDocx = false;
+        this.objectFromBucketPdf = false;
+        this.objectFromBucketXlsx = false;
+        this.objectFromBucketJpg = false
+        this.objectFromBucketMp3 = false;
+        this.objectFromBucketMp4 = URL.createObjectURL(data);
+        })
+        break;
+
+        case "mp3": 
+        this.appService.chooseObjectNameToReadFuncBlob(this.chooseBucketNameToRead, this.chooseObjectNameToRead).subscribe((data: Blob) =>{
+        this.objectFromBucketText = false
+        this.objectFromBucketDocx = false;
+        this.objectFromBucketPdf = false;
+        this.objectFromBucketXlsx = false;
+        this.objectFromBucketMp4 = false
+        this.objectFromBucketMp3 = URL.createObjectURL(data);
+        this.objectFromBucketJpg = false
+        })
+        break;
+      }
+    }
   }
 }
